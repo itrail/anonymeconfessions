@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+
+    </style>
+    <meta charset="UTF-8">
+    <title>Anononyme_Confessionsxx</title>
+</head>
+<body>
+{% extends 'anonyme_confessions/base.html' %}
+    {% block navbar %}
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/pl">
+                    <div id="logo">
+                        {% load staticfiles %}
+                    <img src="{% static 'images/logo.jpg' %}"/></a>
+                </div>
+            </div>
+            <ul class="nav navbar-nav">
+                <button class="btn btn-primary navbar-btn">Button do fejsbuka</button>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/pl">Główna</a></li>
+                <li><a href="#">Regulamin</a></li>
+                {% if logged %}
+                    <li><a href="/pl/logout"><span class="glyphicon glyphicon-log-out"></span>Wyloguj</a></li>
+                {% else %}
+                    <li><a href="/pl/register"><span class="glyphicon glyphicon-user"></span> Zarejestruj</a></li>
+                    <li><a href="/pl/login_view"><span class="glyphicon glyphicon-log-in"></span>Zaloguj</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endblock %}
+    {% block content %}
+
+        <div class="row">
+            <div class="col-sm-6" >
+                {% if latest_article_list %}
+                    {% for article in latest_article_list %}
+                        <div id="field">
+                            <p><div class="row">
+                                <div class="col-sm-8" >
+                                    <a id="b-text" href="{% url 'articles_id' article.article_id %}" style="color:inherit;">{{ article.title }}</a>
+                                </div>
+                                <div class="col-sm-4" style="padding-right:0; padding-left:40px; margin-left:0px; text-align:right;">
+                                    {{ article.pub_date|timesince:now }} ago
+                                </div>
+                            </div></p>
+                            <p style="padding-left:15px;"><a id="link" href="{% url 'articles_id' article.article_id %}" style="text-decoration: none; color:inherit;padding-left:15px;">{{article.content }}</a></p>
+                            <p> <span id="b-text">tagi:</span> {{ article.keywords }}</p>
+                            <a type="submit" href="{% url 'articles_id' article.article_id %}" class="btn btn-default">Dodaj Komentarz</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p> Brak dostępnych artykułów</p>
+                {% endif %}
+            </div>
+            <div class="col-sm-4"><a type="submit" href="/pl/new" class="btn btn-default btn-lg btn-block">Dodaj nowe wyznanie</a></div>
+        </div>
+    {% endblock %}
+    {% block footer %}
+    <footer id="Footer">
+        <div class="first-bar">
+            <div class="container">
+                <div class="row">
+                     <div class="col-sm-4">
+                       <h5>Menu</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item"><a id="myHeader3" href="/pl" >Home</a>
+                            <li class="list-group-item"><a href="#" >Regulamin</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>O nas</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#" >Kim jesteśmy</a>
+                            <li class="list-group-item"><a href="#">Kontakt</a>
+                        </ul>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>Współpraca</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#">Polityka Prywatności</a>
+                            <li class="list-group-item"><a href="/pl/new">Dodaj wyznanie</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="second-bar">
+           <div class="container" style="color:black;">
+                Copyright © 2018 Anonyme Confessions
+        </div>
+    </footer>
+        {% endblock %}
+</body>
+</html>
